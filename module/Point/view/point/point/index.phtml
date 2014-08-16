@@ -1,0 +1,29 @@
+<?php
+$title = 'My points';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+	<a href="<?php echo $this->url('point', array('action'=>'add'));?>">Add new album</a>
+</p>
+
+<table class="table">
+	<tr>
+		<th>ID</th>
+		<th>Address</th>
+		<th>&nbsp;</th>
+	</tr>
+	<?php foreach ($points as $point) : ?>
+		<?php /**@var $point \Point\Model\Point */ ?>
+		<tr>
+			<td><?php echo $this->escapeHtml($point->getId());?></td>
+			<td><?php echo $this->escapeHtml($point->getAddress());?></td>
+			<td>
+				<a href="<?php echo $this->url('point',
+					array('action'=>'edit', 'id' => $point->getId()));?>">Edit</a>
+				<a href="<?php echo $this->url('point',
+					array('action'=>'delete', 'id' => $point->getId()));?>">Delete</a>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+</table>
