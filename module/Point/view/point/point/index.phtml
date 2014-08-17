@@ -6,24 +6,52 @@ $this->headTitle($title);
 <p>
 	<a href="<?php echo $this->url('point', array('action'=>'add'));?>">Add new album</a>
 </p>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjWX6SIq5N61AtHLPrvpEJ4Y_0PaEVGrM">
+</script>
+<script type="text/javascript">
+    function initialize() {
+        var mapOptions = {
+            center: new google.maps.LatLng(55.750188, 37.624451),
+            zoom: 10,
+            disableDoubleClickZoom: true
+        };
+        var map = new google.maps.Map(document.getElementById("map-canvas"),
+            mapOptions);
+        window.listener = google.maps.event.addListener(map, 'dblclick', function (event) {
+            if(confirm('add marker?')){
+                placeMarker(event.latLng);
+            }
+            event.stop();
+            return false;
+        });
+        function placeMarker(location) {
+            $.post(
+                '/point/add',
+                {latitude: location.lat(), longitude: location.lng()},
+                function(response){
+                    var marker = new google.maps.Marker({
+                        position: location,
+                        map: map
+                    });
+                }
+            );
+        }
+        <?php foreach ($points as $point) : ?>
+        <?php /**@var $point \Point\Model\Point */ ?>
 
-<table class="table">
-	<tr>
-		<th>ID</th>
-		<th>Address</th>
-		<th>&nbsp;</th>
-	</tr>
-	<?php foreach ($points as $point) : ?>
-		<?php /**@var $point \Point\Model\Point */ ?>
-		<tr>
-			<td><?php echo $this->escapeHtml($point->getId());?></td>
-			<td><?php echo $this->escapeHtml($point->getAddress());?></td>
-			<td>
-				<a href="<?php echo $this->url('point',
-					array('action'=>'edit', 'id' => $point->getId()));?>">Edit</a>
-				<a href="<?php echo $this->url('point',
-					array('action'=>'delete', 'id' => $point->getId()));?>">Delete</a>
-			</td>
-		</tr>
-	<?php endforeach; ?>
-</table>
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(<?php echo (float)$point->getLatitude() ?>, <?php echo (float)$point->getLongitude() ?>),
+            map: map,
+        });
+        <?php endforeach; ?>
+        return map;
+    }
+    var map = google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<div id="map-canvas"></div>
+<style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0; padding: 0 }
+    #map-canvas { height: 600px; width: 1200px;}
+</style>

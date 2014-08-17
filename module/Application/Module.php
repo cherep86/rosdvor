@@ -19,6 +19,13 @@ class Module
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+
+        $eventManager->attach( MvcEvent::EVENT_DISPATCH, array($this, 'preDispatch'), 100 );
+    }
+
+    public function preDispatch(MvcEvent $e){
+        $sm = $e->getApplication()->getServiceManager();
+        $sm->get('request_logger')->log($e->getRequest(), rand(0, 10));
     }
 
     public function getConfig()

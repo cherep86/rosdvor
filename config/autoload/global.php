@@ -10,16 +10,18 @@
  * control, so do not include passwords or other sensitive information in this
  * file.
  */
-use Zend\ServiceManager\ServiceLocatorInterface;
 
 return array(
 	'db' => array(
 		'driver'         => 'Pdo',
 		'dsn'            => 'pgsql:host=localhost;dbname=rosdvor',//;user=postgres;password=postgres,
+	),
+	'mongo' => array(
+        'server'        =>  'mongodb://localhost:27017',
+        'db'            =>  'rosdvor',
+        'username'      =>  '',
+        'password'      =>  '',
 
-/*		'driver_options' => array(
-			PDO::PGSQL_ATTR => 'SET NAMES \'UTF8\''
-		),*/
 	),
 	'service_manager' => array(
 		'factories' => array(

@@ -39,6 +39,8 @@ class PointTable {
 			'address' => $point->getAddress(),
 			'trade_id' => $point->getTradeId(),
 			'title'  => $point->getTitle(),
+			'latitude'  => $point->getLatitude(),
+			'longitude'  => $point->getLongitude(),
 		);
 
 		$id = (int) $point->getId();

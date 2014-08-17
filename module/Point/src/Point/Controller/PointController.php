@@ -6,6 +6,7 @@ namespace Point\Controller;
 use Point\Form\PointForm;
 use Point\Model\Point;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
 class PointController extends AbstractActionController{
@@ -14,7 +15,7 @@ class PointController extends AbstractActionController{
 	 */
 	protected $pointTable;
 
-	public function indexAction()
+    public function indexAction()
 	{
 		return new ViewModel(array(
 			'points' => $this->getPointTable()->fetchAll(),
@@ -27,20 +28,22 @@ class PointController extends AbstractActionController{
 		$form->get('submit')->setValue('Add');
 
 		$request = $this->getRequest();
-		if ($request->isPost()) {
-			$album = new Point();
-			$form->setInputFilter($album->getInputFilter());
+		if ($request->isPost()){
+			$point = new Point();
+			$form->setInputFilter($point->getInputFilter());
 			$form->setData($request->getPost());
 
 			if ($form->isValid()) {
-				$album->exchangeArray($form->getData());
-				$this->getPointTable()->savePoint($album);
+				$point->exchangeArray($form->getData());
+				$this->getPointTable()->savePoint($point);
 
 				// Redirect to list of albums
-				return $this->redirect()->toRoute('point');
+				return $request->isXmlHttpRequest() ?
+                    new JsonModel(['status' => 'ok'] ) :
+                    $this->redirect()->toRoute('point');
 			}
 		}
-		return array('form' => $form);
+		return $request->isXmlHttpRequest() ? new JsonModel(['status' => 'error', 'errors' => $form->getMessages()] ) :  array('form' => $form);
 	}
 
 	public function editAction()

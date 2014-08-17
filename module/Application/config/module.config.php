@@ -60,6 +60,9 @@ return array(
         'aliases' => array(
             'translator' => 'MvcTranslator',
         ),
+        'factories' =>  [
+            'request_logger'    =>  'Point\Model\PointLogger'
+        ],
     ),
     'translator' => array(
         'locale' => 'en_US',

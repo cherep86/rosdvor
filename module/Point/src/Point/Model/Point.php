@@ -41,7 +41,7 @@ class Point  implements InputFilterAwareInterface{
 
 			$inputFilter->add(array(
 				'name'     => 'id',
-				'required' => true,
+				'required' => false,
 				'filters'  => array(
 					array('name' => 'Int'),
 				),
@@ -49,7 +49,7 @@ class Point  implements InputFilterAwareInterface{
 
 			$inputFilter->add(array(
 				'name'     => 'title',
-				'required' => true,
+				'required' => false,
 				'filters'  => array(
 					array('name' => 'StripTags'),
 					array('name' => 'StringTrim'),
@@ -68,7 +68,7 @@ class Point  implements InputFilterAwareInterface{
 
 			$inputFilter->add(array(
 				'name'     => 'address',
-				'required' => true,
+				'required' => false,
 				'filters'  => array(
 					array('name' => 'StripTags'),
 					array('name' => 'StringTrim'),
@@ -87,10 +87,19 @@ class Point  implements InputFilterAwareInterface{
 
 			$inputFilter->add(array(
 				'name'     => 'trade_id',
-				'required' => true,
+				'required' => false,
 				'filters'  => array(
 					array('name' => 'Int'),
 				),
+			));
+
+			$inputFilter->add(array(
+				'name'     => 'latitude',
+				'required' => true,
+			));
+			$inputFilter->add(array(
+				'name'     => 'longitude',
+				'required' => true,
 			));
 
 			$this->inputFilter = $inputFilter;
