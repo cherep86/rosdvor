@@ -4,7 +4,7 @@ ZF2 Studying Application
 Introduction
 ------------
 This is a simple, skeleton application using the ZF2 MVC layer and module
-systems, PostgresQL, MongoDB.
+systems, PostgresQL, MongoDB, GoogleMaps API.
 
 Installation
 ------------
